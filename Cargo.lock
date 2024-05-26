@@ -3,5 +3,5 @@
 version = 3
 
 [[package]]
-name = "fscanf"
+name = "scan2"
 version = "0.1.0"

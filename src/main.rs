@@ -1,7 +1,7 @@
 use std::{fs, io::SeekFrom};
 
 // use fscanf::Scan1;
-use fscanf::Scan2;
+use scan2::Scan2;
 
 fn main() {
     // println!("Hello, world!");
@@ -12,7 +12,7 @@ fn main() {
 
     let mut i = 0;
     let mut count = 0;
-    while scan.next_i32(&mut i) {
+    while let Some(n) = scan.next_i32().unwrap() {
         count += 1;
     }
     println!(">> count : {count}");
@@ -21,9 +21,11 @@ fn main() {
 
     let mut arr = vec![0; count];
     for i in 0..count {
-        if !scan.next_i32(&mut arr[i]) {
+        if let Some(n) = scan.next_i32().unwrap() {
+            arr[i] = n;
+        } else {
             std::process::exit(1);
-        };
+        }
     }
     println!(">> arr : {arr:?}");
 }
