@@ -10,8 +10,9 @@ fn main() {
     // let mut scan = Scan1::new(f);
     let mut scan = Scan2::new(f);
 
+    let mut value = Default::default();
     let mut count = 0;
-    while scan.next_i32().unwrap().is_some() {
+    while scan.next_i32(&mut value).unwrap() {
         count += 1;
     }
     println!(">> count : {count}");
@@ -21,9 +22,7 @@ fn main() {
     let mut arr = vec![0; count];
     #[allow(clippy::needless_range_loop)]
     for i in 0..count {
-        if let Some(n) = scan.next_i32().unwrap() {
-            arr[i] = n;
-        } else {
+        if !scan.next_i32(&mut arr[i]).unwrap() {
             std::process::exit(1);
         }
     }
