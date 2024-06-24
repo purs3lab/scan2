@@ -1,4 +1,4 @@
-use std::io::{self, BufReader, Read, Seek, SeekFrom};
+use std::io::{self, BufRead, BufReader, Read, Seek, SeekFrom};
 
 pub struct Scan2<R: Read> {
     rdr: BufReader<R>,
@@ -39,6 +39,17 @@ where
 
     fn read_byte(&mut self) -> io::Result<()> {
         self.rdr.read_exact(&mut self.curr_byte)
+    }
+
+    pub fn is_eof(&mut self) -> io::Result<bool> {
+        let buffer = self.rdr.fill_buf()?;
+        return Ok(buffer.is_empty());
+    }
+        
+    pub fn next_u8(&mut self) -> io::Result<u8> {
+        let mut buf = [0; 1];
+        self.rdr.read_exact(&mut buf)?;
+        return Ok(buf[0]);
     }
 
     pub fn next_i32(&mut self, i: &mut i32) -> io::Result<bool> {
